@@ -59,12 +59,16 @@ void on_accept(int sock, short event, void* arg)
 {
     struct sockaddr_in cli_addr;
     int newfd, sin_size;
+    // read_ev must allocate from heap memory, otherwise the program would crash from segmant fault
+    // 如果是在栈上分配，那么当函数返回时变量占用的内存会被释放，
+    // 因此事件主循环event_base_dispatch会访问无效的内存而导致进程崩溃(即crash)
     struct sock_ev* ev = (struct sock_ev*)malloc(sizeof(struct sock_ev));
     ev->read_ev = (struct event*)malloc(sizeof(struct event));
     ev->write_ev = (struct event*)malloc(sizeof(struct event));
     sin_size = sizeof(struct sockaddr_in);
     newfd = accept(sock, (struct sockaddr*)&cli_addr, &sin_size);
-    event_set(ev->read_ev, newfd, EV_READ|EV_PERSIST, on_read, ev);
+    // 在代表客户的描述字newfd上监听可读事件，当有数据到达是调用on_read函数
+    event_set(ev->read_ev, newfd, EV_READ|EV_PERSIST, on_read, ev); // ev作为参数传递给了on_read函数
     event_base_set(base, ev->read_ev);
     event_add(ev->read_ev, NULL);
 }
