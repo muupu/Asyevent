@@ -30,7 +30,7 @@ void release_sock_event(struct sock_ev* ev)
 void on_write(int sock, short event, void* arg)
 {
     char* buffer = (char*)arg;
-    char* msg = "message received from server!\n";
+    char* msg = "Hello, I'm server.";
     // send(sock, buffer, strlen(buffer), 0);
     send(sock, msg, strlen(msg), 0);
 
