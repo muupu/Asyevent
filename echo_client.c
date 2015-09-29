@@ -10,7 +10,7 @@
 static int port; 
 static char addr[256];
 static int nlen;
-static char msg[]="hello\n";
+static char msg[]="Hello, I'm client.";
 
 // "./client localhost 25341"
 int main(int argc, char*argv[])

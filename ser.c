@@ -30,7 +30,9 @@ void release_sock_event(struct sock_ev* ev)
 void on_write(int sock, short event, void* arg)
 {
     char* buffer = (char*)arg;
-    send(sock, buffer, strlen(buffer), 0);
+    char* msg = "message received from server!\n";
+    // send(sock, buffer, strlen(buffer), 0);
+    send(sock, msg, strlen(msg), 0);
 
     free(buffer);
 }
@@ -42,10 +44,13 @@ void on_read(int sock, short event, void* arg)
     struct sock_ev* ev = (struct sock_ev*)arg;
     ev->buffer = (char*)malloc(MEM_SIZE);
     bzero(ev->buffer, MEM_SIZE);
+    // 5. recv：
     size = recv(sock, ev->buffer, MEM_SIZE, 0);
     printf("receive data:%s, size:%d\n", ev->buffer, size);
     if (size == 0) 
     {
+        // 返回0标志对方已经关闭了连接，因此这个时候就没必要继续监听该套接口上的事件，
+        // 由于EV_READ在on_accept函数里是用EV_PERSIST参数注册的，因此要显示的调用event_del函数取消对该事件的监听。
         release_sock_event(ev);
         close(sock);
         return;
@@ -66,8 +71,10 @@ void on_accept(int sock, short event, void* arg)
     ev->read_ev = (struct event*)malloc(sizeof(struct event));
     ev->write_ev = (struct event*)malloc(sizeof(struct event));
     sin_size = sizeof(struct sockaddr_in);
+    // 4. accept：接受客户端请求，建立连接
+    // 如果accept成功返回，则服务器与客户已经正确建立连接了，此时服务器通过accept返回的套接字来完成与客户的通信。
     newfd = accept(sock, (struct sockaddr*)&cli_addr, &sin_size);
-    // 在代表客户的描述字newfd上监听可读事件，当有数据到达是调用on_read函数
+    // 在代表客户的描述字newfd上监听可读事件，当有数据到达时调用on_read函数
     event_set(ev->read_ev, newfd, EV_READ|EV_PERSIST, on_read, ev); // ev作为参数传递给了on_read函数
     event_base_set(base, ev->read_ev);
     event_add(ev->read_ev, NULL);
@@ -91,7 +98,7 @@ int main(int argc, char* argv[])
 
     struct event listen_ev; 
     base = event_base_new(); //创建一个事件处理的全局变量,处理IO的管家
-    // 在listen_ev这个事件监听sock这个描述字的读操作，当读消息到达是调用on_accept函数
+    // 在listen_ev这个事件监听sock这个描述字的读操作，当读消息到达时调用on_accept函数
     event_set(&listen_ev, sock, EV_READ|EV_PERSIST, on_accept, NULL);
     // 将listen_ev注册到base，相当于告诉处理IO的管家请留意我的listen_ev上的事件
     event_base_set(base, &listen_ev);
