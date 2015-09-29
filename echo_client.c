@@ -61,7 +61,7 @@ int main(int argc, char*argv[])
     if( (nlen = read(fd,recv_msg, MAXLINE))<0 )  // 服务器回应信息
         cerror("read");
     recv_msg[nlen]='\0';
-    printf("receive data:%s, size:%d\n", recv_msg, sizeof(recv_msg));
+    printf("receive data:%s, size:%d\n", recv_msg, nlen);
     // printf("msg: %s\n", recv_msg);
     return 0;
 }
