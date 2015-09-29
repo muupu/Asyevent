@@ -11,6 +11,7 @@ static int port;
 static char addr[256];
 static int nlen;
 static char msg[]="Hello, I'm client.";
+#define MAXLINE 256
 
 // "./client localhost 25341"
 int main(int argc, char*argv[])
@@ -22,7 +23,7 @@ int main(int argc, char*argv[])
     memset(&sin, 0, sizeof(sin));
     sin.sin_family = AF_INET; // 协议簇为（TCP/IP协议传输 – IPv4）
 
-    char *recv_msg = (char *)malloc(256 * sizeof(char));
+    char *recv_msg = (char *)malloc(MAXLINE * sizeof(char));
   
     if(argc<3)
     {
@@ -57,7 +58,7 @@ int main(int argc, char*argv[])
     if( (nlen = write(fd,msg, strlen(msg)))<0 )  // 发送“hello\n”
         cerror("write");
         
-    if( (nlen = read(fd,recv_msg, strlen(recv_msg)))<0 )  // 服务器回应信息
+    if( (nlen = read(fd,recv_msg, MAXLINE))<0 )  // 服务器回应信息
         cerror("read");
     recv_msg[nlen]='\0';
     printf("msg: %s\n", recv_msg);
