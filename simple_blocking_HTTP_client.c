@@ -13,9 +13,9 @@ int main(int c, char **v)
 {
     const char query[] =
         "GET / HTTP/1.0\r\n"
-        "Host: www.google.com\r\n"
+        "Host: www.baidu.com\r\n"
         "\r\n";
-    const char hostname[] = "www.google.com";
+    const char hostname[] = "www.baidu.com";
     struct sockaddr_in sin;
     struct hostent *h;
     const char *cp;
