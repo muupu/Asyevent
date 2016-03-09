@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     int listenfd = 0, connfd = 0;
     struct sockaddr_in serv_addr; 
     struct ucred cred;
-    int len;
+    socklen_t  len;
 
     char sendBuff[1025];
     time_t ticks; 
