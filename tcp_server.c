@@ -11,7 +11,7 @@
 #include <time.h> 
 #include <sys/time.h>
 
-void test_getsockopt()
+int test_getsockopt()
 {
     int fds[2];
   struct ucred cred;
@@ -44,12 +44,13 @@ void test_getsockopt()
       printf("IDs differ\n");
     }
   }
+  return 1;
 }
 
 int main(int argc, char *argv[])
 {
     test_getsockopt();
-    
+
     int listenfd = 0, connfd = 0;
     struct sockaddr_in serv_addr; 
     struct ucred cred;
