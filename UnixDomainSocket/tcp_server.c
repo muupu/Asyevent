@@ -4,6 +4,13 @@
 #include <unistd.h>  
 #include <stdlib.h>  
 #include <stdio.h>  
+
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <errno.h>
+#include <string.h>
+#include <time.h> 
+#include <sys/time.h>
   
 int main()  
 {  
