@@ -16,9 +16,7 @@ int main(int argc, char *argv[])
     char recvBuff[1024];
     struct sockaddr_in serv_addr; 
 
-    int optval = 1;
-    if (setsockopt(sfd, SOL_SOCKET, SO_PASSCRED, &optval, sizeof(optval)) == -1)
-        errExit("setsockopt");
+    
 
     if(argc != 2)
     {
@@ -30,7 +28,7 @@ int main(int argc, char *argv[])
     printf("TCP client pid [%u]\n", getpid());
 
     memset(recvBuff, '0',sizeof(recvBuff));
-    if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    if((sockfd = socket(PF_UNIX, SOCK_STREAM, 0)) < 0)
     {
         printf("\n Error : Could not create socket \n");
         return 1;
