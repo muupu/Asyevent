@@ -44,13 +44,26 @@ int main()
     /* accept a connection */  
     client_sockfd = accept(server_sockfd, (struct sockaddr *)&client_addr, &len);  
 
-    
+
+    fprintf(stderr, "process:  pid=%i uid=%i gid=%i\n", getpid(), getuid(), getgid());
     memset(&cred, 0x0, sizeof(cred));
     cred_len = sizeof(cred);
     if (getsockopt(client_sockfd, SOL_SOCKET, SO_PEERCRED, (void*)&cred, &cred_len))
           printf("Error: getsockopt failed with error\n");
-    else
-        printf("Client pid/uid/gid [%u/%u/%u]\n", cred.pid, cred.uid, cred.gid);
+    // else
+    //     printf("Client pid/uid/gid [%u/%u/%u]\n", cred.pid, cred.uid, cred.gid);
+    if(cred_len == sizeof(cred)) {
+      fprintf(stderr, "socket:   pid=%i uid=%i gid=%i\n",
+          cred.pid, cred.uid, cred.gid);
+      if(getpid() == cred.pid &&
+         getuid() == cred.uid &&
+         getgid() == cred.gid) {
+        printf("IDs are the same, as expected\n");
+      }
+      else {
+        printf("IDs differ\n");
+    }
+
       
     /* exchange data */  
     read(client_sockfd, &ch, 1);  
