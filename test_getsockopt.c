@@ -19,7 +19,7 @@ int main()
 	  getpid(), getuid(), getgid());
 
   size = sizeof(cred);
-  if(getsockopt(fds[0], SOL_SOCKET, SO_PEERCRED, &cred, &size) < 0) {
+  if(getsockopt(fds[1], SOL_SOCKET, SO_PEERCRED, &cred, &size) < 0) {
     perror("getsockopt/SO_PEERCRED");
     return 1;
   }
