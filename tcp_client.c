@@ -17,7 +17,6 @@ int main(int argc, char *argv[])
     struct sockaddr_in serv_addr; 
 
     
-
     if(argc != 2)
     {
         printf("\n Usage: %s <ip of server> \n",argv[0]);
