@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 
     int optval = 1;
     if (setsockopt(sockfd, SOL_SOCKET, SO_PASSCRED, &optval, sizeof(optval)) == -1)
-        errExit("setsockopt");
+        printf("setsockopt");
 
     memset(&serv_addr, '0', sizeof(serv_addr)); 
 
