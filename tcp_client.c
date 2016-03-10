@@ -16,6 +16,10 @@ int main(int argc, char *argv[])
     char recvBuff[1024];
     struct sockaddr_in serv_addr; 
 
+    int optval = 1;
+    if (setsockopt(sfd, SOL_SOCKET, SO_PASSCRED, &optval, sizeof(optval)) == -1)
+        errExit("setsockopt");
+
     if(argc != 2)
     {
         printf("\n Usage: %s <ip of server> \n",argv[0]);
