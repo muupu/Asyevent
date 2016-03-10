@@ -58,10 +58,10 @@ int main()
       if(getpid() == cred.pid &&
          getuid() == cred.uid &&
          getgid() == cred.gid) {
-        printf("IDs are the same, as expected\n");
-      }
-      else {
+          printf("IDs are the same, as expected\n");
+      } else {
         printf("IDs differ\n");
+      }
     }
 
       
