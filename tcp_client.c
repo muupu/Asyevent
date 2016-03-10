@@ -27,18 +27,22 @@ int main(int argc, char *argv[])
     printf("TCP client pid [%u]\n", getpid());
 
     memset(recvBuff, '0',sizeof(recvBuff));
-    if((sockfd = socket(AF_LOCAL, SOCK_STREAM, 0)) < 0)
+    if((sockfd = socket(AF_UNIX, SOCK_STREAM, 0)) < 0)
     {
         printf("\n Error : Could not create socket \n");
         return 1;
     } 
 
+    // int optval = 1;
+    // if (setsockopt(sockfd, SOL_SOCKET, SO_PASSCRED, &optval, sizeof(optval)) == -1)
+    //     errExit("setsockopt");
+
     memset(&serv_addr, '0', sizeof(serv_addr)); 
 
-    serv_addr.sin_family = AF_LOCAL;
+    serv_addr.sin_family = AF_UNIX;
     serv_addr.sin_port = htons(5000); 
 
-    if(inet_pton(AF_LOCAL, argv[1], &serv_addr.sin_addr)<=0)
+    if(inet_pton(AF_UNIX, argv[1], &serv_addr.sin_addr)<=0)
     {
         printf("\n inet_pton error occured\n");
         return 1;
