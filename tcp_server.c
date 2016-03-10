@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
     memset(&serv_addr, '0', sizeof(serv_addr));
     memset(sendBuff, '0', sizeof(sendBuff)); 
 
-    serv_addr.sin_family = AF_UNIX;
+    serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
     serv_addr.sin_port = htons(5000); 
 
