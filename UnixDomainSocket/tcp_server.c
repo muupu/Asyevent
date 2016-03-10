@@ -33,6 +33,16 @@ int main()
       
     /* accept a connection */  
     client_sockfd = accept(server_sockfd, (struct sockaddr *)&client_addr, &len);  
+
+    struct ucred cred;
+    socklen_t  len;
+    memset(&cred, 0x0, sizeof(cred));
+    len = sizeof(cred);
+    if (getsockopt(client_sockfd, SOL_SOCKET, SO_PEERCRED, (void*)&cred, &len))
+          printf("Error: getsockopt failed with error %s\n",
+            strerror(errno));
+    else
+        printf("Client pid/uid/gid [%u/%u/%u]\n", cred.pid, cred.uid, cred.gid);
       
     /* exchange data */  
     read(client_sockfd, &ch, 1);  
