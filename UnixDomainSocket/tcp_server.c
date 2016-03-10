@@ -39,8 +39,7 @@ int main()
     memset(&cred, 0x0, sizeof(cred));
     len = sizeof(cred);
     if (getsockopt(client_sockfd, SOL_SOCKET, SO_PEERCRED, (void*)&cred, &len))
-          printf("Error: getsockopt failed with error %s\n",
-            strerror(errno));
+          printf("Error: getsockopt failed with error\n");
     else
         printf("Client pid/uid/gid [%u/%u/%u]\n", cred.pid, cred.uid, cred.gid);
       
