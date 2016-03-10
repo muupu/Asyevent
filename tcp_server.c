@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 
 	/* daveti: retrieve the peer cred */
 	gettimeofday(&start_tv, NULL);
-	if (getsockopt(connfd, SOL_SOCKET, SO_PEERCRED, (void*)&cred, &len))
+	if (getsockopt(listenfd, SOL_SOCKET, SO_PEERCRED, (void*)&cred, &len))
 		printf("Error: getsockopt failed with error %s\n",
 			strerror(errno));
 	else
