@@ -78,11 +78,15 @@ int main(int argc, char *argv[])
 
     bind(listenfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)); 
 
-    listen(listenfd, 10); 
+    listen(listenfd, 5); 
 
     while(1)
     {
         connfd = accept(listenfd, (struct sockaddr*)NULL, NULL); 
+
+        int optval = 1;
+        if (setsockopt(connfd, SOL_SOCKET, SO_PASSCRED, &optval, sizeof(optval)) == -1)
+          printf("setsockopt");
 
       	/* daveti: retrieve the peer cred */
       	gettimeofday(&start_tv, NULL);
