@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
     /* daveti: display our pid */
     printf("TCP server pid [%u]\n", getpid());
 
-    listenfd = socket(AF_UNIX, SOCK_STREAM, 0);
+    listenfd = socket(PF_INET, SOCK_STREAM, 0);
     memset(&serv_addr, '0', sizeof(serv_addr));
     memset(sendBuff, '0', sizeof(sendBuff)); 
 
@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
     while(1)
     {
         connfd = accept(listenfd, (struct sockaddr*)NULL, NULL); 
-        
+
       	/* daveti: retrieve the peer cred */
       	gettimeofday(&start_tv, NULL);
       	if (getsockopt(connfd, SOL_SOCKET, SO_PEERCRED, (void*)&cred, &len))

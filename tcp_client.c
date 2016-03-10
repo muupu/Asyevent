@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     printf("TCP client pid [%u]\n", getpid());
 
     memset(recvBuff, '0',sizeof(recvBuff));
-    if((sockfd = socket(AF_UNIX, SOCK_STREAM, 0)) < 0)
+    if((sockfd = socket(PF_INET, SOCK_STREAM, 0)) < 0)
     {
         printf("\n Error : Could not create socket \n");
         return 1;
