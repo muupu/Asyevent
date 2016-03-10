@@ -33,9 +33,9 @@ int main(int argc, char *argv[])
         return 1;
     } 
 
-    // int optval = 1;
-    // if (setsockopt(sockfd, SOL_SOCKET, SO_PASSCRED, &optval, sizeof(optval)) == -1)
-    //     errExit("setsockopt");
+    int optval = 1;
+    if (setsockopt(sockfd, SOL_SOCKET, SO_PASSCRED, &optval, sizeof(optval)) == -1)
+        errExit("setsockopt");
 
     memset(&serv_addr, '0', sizeof(serv_addr)); 
 
